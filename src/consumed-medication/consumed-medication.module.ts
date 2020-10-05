@@ -1,4 +1,7 @@
 import { Module } from '@nestjs/common';
+import { ConsumedMedicationService } from './consumed-medication.service';
 
-@Module({})
-export class ConsumedMedicationModule {}
+@Module({
+  providers: [ConsumedMedicationService]
+})
+export class ConsumedMedicationModule { }

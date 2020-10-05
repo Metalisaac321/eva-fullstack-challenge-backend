@@ -32,7 +32,7 @@ export class BookingService {
 
         const booking = new Booking();
         booking.bookingId = bookingId;
-        booking.date = moment(dateTime).utc().format('DD/MM/yyyy"');
+        booking.date = moment(dateTime).utc().format('DD/MM/yyyy');
         booking.clinic = clinic;
         booking.women = women;
         booking.dateTime = dateTime;
@@ -40,5 +40,13 @@ export class BookingService {
         await this.bookingRepository.save(booking);
 
         return booking;
+    }
+
+    async findById(bookingId: number): Promise<Booking> {
+        return this.bookingRepository.findOne({ bookingId })
+    }
+
+    async save(booking: Booking) {
+        return this.bookingRepository.save(booking);
     }
 }

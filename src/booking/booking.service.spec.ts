@@ -1,16 +1,12 @@
-import { Test } from '@nestjs/testing';
-import { getRepositoryToken } from '@nestjs/typeorm';
 import { Booking } from './booking.entity';
 import { BookingService } from './booking.service';
-import { getRepository, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import { createDbTestConnection } from '../utils/createDbTestConnection';
 import { INSERTED_BOOKING_TEST_CASE, INSERT_BOOKING_DIFERENT_ID_TEST_CASE, INSERT_BOOKING_TEST_CASE } from './constants';
 import { Clinic } from '../clinic/clinic.entity';
 import { ClinicService } from '../clinic/clinic.service';
 import { WomenService } from '../women/women.service';
 import { Women } from '../women/women.entity';
-import { ClinicModule } from '../clinic/clinic.module';
-import { WomenModule } from '../women/women.module';
 
 describe('BookingService', () => {
   let bookingService: BookingService;

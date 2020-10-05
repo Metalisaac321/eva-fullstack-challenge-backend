@@ -1,6 +1,7 @@
 import { Clinic } from '../clinic/clinic.entity';
 import { Women } from '../women/women.entity';
-import { Entity, Column, PrimaryColumn, ManyToOne } from 'typeorm';
+import { Entity, Column, PrimaryColumn, ManyToOne, ManyToMany } from 'typeorm';
+import { ConsumedMedication } from '../consumed-medication/consumed-medication.entity';
 
 @Entity()
 export class Booking {
@@ -14,8 +15,11 @@ export class Booking {
     dateTime: string;
 
     @ManyToOne(type => Women, women => women.bookings)
-    women: Women;
+    women?: Women;
 
     @ManyToOne(type => Clinic, clinic => clinic.bookings)
-    clinic: Clinic;
+    clinic?: Clinic;
+
+    @ManyToMany(type => ConsumedMedication, consumedMedication => consumedMedication.bookings)
+    consumedMedications?: ConsumedMedication[];
 }
