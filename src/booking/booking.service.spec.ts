@@ -15,7 +15,6 @@ describe('BookingService', () => {
   let clinicRepository: Repository<Clinic>;
   let womenRepository: Repository<Women>;
 
-
   beforeAll(async () => {
     connection = await createDbTestConnection(testConnectionName);
     clinicRepository = connection.getRepository(Clinic);

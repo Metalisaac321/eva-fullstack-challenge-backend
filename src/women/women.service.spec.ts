@@ -12,7 +12,7 @@ describe('WomenService', () => {
   let connection;
   const testConnectionName = 'testConnection';
 
-  beforeEach(async () => {
+  beforeAll(async () => {
     connection = await createDbTestConnection(
       testConnectionName,
     );
@@ -29,12 +29,15 @@ describe('WomenService', () => {
     service = new WomenService(repository);
   });
 
-  afterEach(async () => {
+  afterAll(async () => {
     await connection.dropDatabase()
   })
 
   test('Should Save Women', async () => {
-    const newWomen = await service.insert(INSERT_WOMEN_TEST_CASE)
-    expect(newWomen).toBe(INSERT_WOMEN_TEST_CASE);
+    await service.insert(INSERT_WOMEN_TEST_CASE)
+    await service.insert(INSERT_WOMEN_TEST_CASE)
+    const womens = await repository.find();
+    expect(womens.length).toBe(1);
+    expect(womens[0]).toEqual(INSERT_WOMEN_TEST_CASE);
   })
 });

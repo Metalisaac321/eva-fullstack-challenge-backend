@@ -11,14 +11,13 @@ export class WomenService {
     ) { }
 
     async insert(newWomen: Women): Promise<Women> {
-        const women = await this.womenRepository.findOne({
+        let women = await this.womenRepository.findOne({
             email: newWomen.email,
             name: newWomen.name,
         });
-        return await this.womenRepository.save({
-            womenId: women?.womenId || 0,
-            email: newWomen.email,
-            name: newWomen.name,
-        });
+        if (!women) {
+            women = await this.womenRepository.save(newWomen);
+        }
+        return women
     }
 }

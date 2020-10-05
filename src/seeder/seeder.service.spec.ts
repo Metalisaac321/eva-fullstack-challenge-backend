@@ -7,29 +7,45 @@ import { Women } from '../women/women.entity';
 import { WomenService } from '../women/women.service';
 import { Repository } from 'typeorm';
 import { SeederService } from './seeder.service';
+import { ConsumedMedication } from '../consumed-medication/consumed-medication.entity';
+import { ConsumedMedicationService } from '../consumed-medication/consumed-medication.service';
 
 describe('SeederService', () => {
   let seederService: SeederService;
   let connection;
   const testConnectionName = 'testConnection';
   let bookingRepository: Repository<Booking>;
+  let consumedMedicationService: ConsumedMedicationService;
+  let consumedMedicationRepository: Repository<ConsumedMedication>;
 
   beforeAll(async () => {
     connection = await createDbTestConnection(testConnectionName);
-    const clinicRepository = connection.getRepository(Clinic);
-    const clinicService = new ClinicService(clinicRepository);
-    const womenRepository = connection.getRepository(Women);
-    const womenService = new WomenService(womenRepository);
+    const clinicService = new ClinicService(connection.getRepository(Clinic));
+    const womenService = new WomenService(connection.getRepository(Women));
 
     bookingRepository = connection.getRepository(Booking)
     const bookingService = new BookingService(bookingRepository, womenService, clinicService);
-    seederService = new SeederService(bookingService);
+    consumedMedicationRepository = connection.getRepository(ConsumedMedication);
+    consumedMedicationService = new ConsumedMedicationService(consumedMedicationRepository, bookingService)
+
+    seederService = new SeederService(bookingService, consumedMedicationService);
   });
 
-  it('should be save all bookings', async () => {
+  afterAll(async () => {
+    await connection.dropDatabase()
+  })
+
+  test('should be save all bookings from CSV file', async () => {
     await seederService.seedBookings();
-    const bookings = await bookingRepository.find()
+    const bookings = await bookingRepository.count()
 
-    expect(bookings.length).toBe(10);
+    expect(bookings).toBe(10);
   });
+
+  test('Must be save all explorations from CSV file', async () => {
+    await seederService.seedExplorations();
+    const consumedMedications = await consumedMedicationRepository.count();
+
+    expect(consumedMedications).toBe(5);
+  })
 });

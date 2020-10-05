@@ -49,4 +49,8 @@ export class ConsumedMedicationService {
 
         return consumedMedication;
     }
+
+    async count(): Promise<number> {
+        return await this.consumedMedicationRepository.count()
+    }
 }

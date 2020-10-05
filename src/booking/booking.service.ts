@@ -46,7 +46,11 @@ export class BookingService {
         return this.bookingRepository.findOne({ bookingId })
     }
 
-    async save(booking: Booking) {
+    async save(booking: Booking): Promise<Booking> {
         return this.bookingRepository.save(booking);
+    }
+
+    async count(): Promise<number> {
+        return this.bookingRepository.count();
     }
 }

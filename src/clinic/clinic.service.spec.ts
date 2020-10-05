@@ -12,7 +12,7 @@ describe('ClinicService', () => {
   let connection;
   const testConnectionName = 'testConnection';
 
-  beforeEach(async () => {
+  beforeAll(async () => {
     connection = await createDbTestConnection(testConnectionName);
     await Test.createTestingModule({
       providers: [
@@ -27,16 +27,21 @@ describe('ClinicService', () => {
     service = new ClinicService(repository);
   });
 
-  afterEach(async () => {
+  afterAll(async () => {
     await connection.dropDatabase()
   })
 
   test('Should Save clinic', async () => {
 
-    const newClinic = await service.insert({
+    await service.insert({
       name: INSERT_CLINIC_TEST_CASE.name,
     });
 
-    expect(newClinic).toStrictEqual(INSERT_CLINIC_TEST_CASE);
+    await service.insert({
+      name: INSERT_CLINIC_TEST_CASE.name,
+    });
+    const clinics = await repository.find();
+    expect(clinics.length).toBe(1);
+    expect(clinics[0]).toEqual(INSERT_CLINIC_TEST_CASE);
   })
 });
