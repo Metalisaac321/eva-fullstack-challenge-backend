@@ -6,10 +6,28 @@ import { BookingModule } from './booking/booking.module';
 import { WomenModule } from './women/women.module';
 import { ClinicModule } from './clinic/clinic.module';
 import { ConsumedMedicationModule } from './consumed-medication/consumed-medication.module';
+import { TypeOrmModule } from '@nestjs/typeorm';
 
 @Module({
-  imports: [SeederModule, BookingModule, WomenModule, ClinicModule, ConsumedMedicationModule],
+  imports: [
+    TypeOrmModule.forRoot({
+      type: 'postgres',
+      host: 'db',
+      port: 5432,
+      username: 'root',
+      password: 'SuperSecretPassword',
+      database: 'eva-fullstack-challenge',
+      synchronize: true,
+      autoLoadEntities: true,
+    }),
+
+    SeederModule,
+    BookingModule,
+    WomenModule,
+    ClinicModule,
+    ConsumedMedicationModule
+  ],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule { }
