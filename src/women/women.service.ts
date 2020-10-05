@@ -13,8 +13,4 @@ export class WomenService {
     async insert(newWomen: Women): Promise<Women> {
         return await this.womenRepository.save(newWomen);
     }
-
-    async findAll(): Promise<Women[]> {
-        return this.womenRepository.find();
-    }
 }
