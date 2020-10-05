@@ -5,6 +5,7 @@ import { WomenService } from './women.service';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Women])],
-  providers: [WomenService]
+  providers: [WomenService],
+  exports: [WomenService]
 })
 export class WomenModule { }

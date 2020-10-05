@@ -11,6 +11,13 @@ export class ClinicService {
     ) { }
 
     async insert(newClinic: Clinic): Promise<Clinic> {
-        return await this.clinicRepository.save(newClinic);
+        const clinic = await this.clinicRepository.findOne({
+            name: newClinic.name
+        });
+
+        return await this.clinicRepository.save({
+            clinicId: clinic?.clinicId || 0,
+            name: newClinic.name,
+        });
     }
 }

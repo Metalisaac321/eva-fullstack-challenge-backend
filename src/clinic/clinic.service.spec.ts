@@ -4,6 +4,7 @@ import { getRepository, Repository } from 'typeorm';
 import { createDbTestConnection } from '../utils/createDbTestConnection';
 import { Clinic } from './clinic.entity';
 import { ClinicService } from './clinic.service';
+import { INSERT_CLINIC_TEST_CASE } from './constants';
 
 describe('ClinicService', () => {
   let service: ClinicService;
@@ -12,7 +13,7 @@ describe('ClinicService', () => {
   const testConnectionName = 'testConnection';
 
   beforeEach(async () => {
-    connection = await createDbTestConnection(testConnectionName, [Clinic]);
+    connection = await createDbTestConnection(testConnectionName);
     await Test.createTestingModule({
       providers: [
         ClinicService,
@@ -31,14 +32,11 @@ describe('ClinicService', () => {
   })
 
   test('Should Save clinic', async () => {
-    const clinicToSave: Clinic = {
-      clinicId: 1,
-      name: 'EXPLANADA',
-    };
+
     const newClinic = await service.insert({
-      name: 'EXPLANADA',
+      name: INSERT_CLINIC_TEST_CASE.name,
     });
 
-    expect(newClinic).toStrictEqual(clinicToSave);
+    expect(newClinic).toStrictEqual(INSERT_CLINIC_TEST_CASE);
   })
 });

@@ -1,6 +1,9 @@
+import { Booking } from "../booking/booking.entity";
+import { Clinic } from "../clinic/clinic.entity";
+import { Women } from "../women/women.entity";
 import { createConnection } from "typeorm";
 
-export const createDbTestConnection = (testConnectionName: string, entities: any[]) => {
+export const createDbTestConnection = (testConnectionName: string) => {
     return createConnection({
         type: 'postgres',
         host: 'localhost',
@@ -9,7 +12,7 @@ export const createDbTestConnection = (testConnectionName: string, entities: any
         password: 'SuperSecretPassword',
         database: 'db',
         synchronize: true,
-        entities: entities,
+        entities: [Women, Booking, Clinic],
         name: testConnectionName,
         dropSchema: true,
     });

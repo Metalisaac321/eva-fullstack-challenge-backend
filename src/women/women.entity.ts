@@ -1,13 +1,17 @@
-import { Entity, Column, PrimaryColumn } from 'typeorm';
+import { Booking } from '../booking/booking.entity';
+import { Entity, OneToMany, PrimaryGeneratedColumn, PrimaryColumn } from 'typeorm';
 
 @Entity()
 export class Women {
-    @PrimaryColumn()
+    @PrimaryGeneratedColumn()
     womenId: number;
 
-    @Column()
+    @PrimaryColumn()
     name: string;
 
-    @Column()
+    @PrimaryColumn()
     email: string;
+
+    @OneToMany(type => Booking, booking => booking.women)
+    bookings?: Booking[];
 }

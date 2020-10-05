@@ -4,6 +4,7 @@ import { Women } from './women.entity';
 import { WomenService } from './women.service';
 import { getRepository, Repository } from 'typeorm';
 import { createDbTestConnection } from '../utils/createDbTestConnection';
+import { INSERT_WOMEN_TEST_CASE } from './constants';
 
 describe('WomenService', () => {
   let service: WomenService;
@@ -12,7 +13,9 @@ describe('WomenService', () => {
   const testConnectionName = 'testConnection';
 
   beforeEach(async () => {
-    connection = await createDbTestConnection(testConnectionName, [Women]);
+    connection = await createDbTestConnection(
+      testConnectionName,
+    );
     await Test.createTestingModule({
       providers: [
         WomenService,
@@ -31,14 +34,7 @@ describe('WomenService', () => {
   })
 
   test('Should Save Women', async () => {
-    const womenToSave = {
-      womenId: 0,
-      email: 'emma@gmail.com',
-      name: 'Emma'
-    };
-    const newWomen = await service.insert(womenToSave)
-
-    expect(newWomen).toBe(womenToSave);
-
+    const newWomen = await service.insert(INSERT_WOMEN_TEST_CASE)
+    expect(newWomen).toBe(INSERT_WOMEN_TEST_CASE);
   })
 });

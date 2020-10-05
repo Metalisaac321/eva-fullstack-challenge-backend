@@ -5,6 +5,7 @@ import { ClinicService } from './clinic.service';
 
 @Module({
     imports: [TypeOrmModule.forFeature([Clinic])],
-    providers: [ClinicService]
+    providers: [ClinicService],
+    exports: [ClinicService]
 })
-export class WomenModule { }
+export class ClinicModule { }
