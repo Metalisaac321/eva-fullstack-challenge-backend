@@ -1,18 +1,39 @@
 import { Test, TestingModule } from '@nestjs/testing';
+import { Booking } from '../booking/booking.entity';
+import { BookingService } from '../booking/booking.service';
+import { Clinic } from '../clinic/clinic.entity';
+import { ClinicService } from '../clinic/clinic.service';
+import { createDbTestConnection } from '../utils/createDbTestConnection';
+import { Women } from '../women/women.entity';
+import { WomenService } from '../women/women.service';
+import { Repository } from 'typeorm';
 import { SeederService } from './seeder.service';
 
 describe('SeederService', () => {
-  let service: SeederService;
+  let seederService: SeederService;
+  let bookingService: BookingService;
+  let connection;
+  const testConnectionName = 'testConnection';
+  let clinicRepository: Repository<Clinic>;
+  let womenRepository: Repository<Women>;
+  let bookingRepository: Repository<Booking>;
 
-  beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
-      providers: [SeederService],
-    }).compile();
+  beforeAll(async () => {
+    connection = await createDbTestConnection(testConnectionName);
+    clinicRepository = connection.getRepository(Clinic);
+    const clinicService = new ClinicService(clinicRepository);
+    womenRepository = connection.getRepository(Women);
+    const womenService = new WomenService(womenRepository);
 
-    service = module.get<SeederService>(SeederService);
+    bookingRepository = connection.getRepository(Booking)
+    bookingService = new BookingService(bookingRepository, womenService, clinicService);
+    seederService = new SeederService(bookingService);
   });
 
-  it('should be defined', () => {
-    expect(service).toBeDefined();
+  it('should be sabe all bookings', async () => {
+    await seederService.seedBookings();
+    const bookings = await bookingRepository.find()
+
+    expect(bookings.length).toBe(10);
   });
 });
