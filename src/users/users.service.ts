@@ -18,11 +18,6 @@ export class UsersService {
                 username: 'chris',
                 password: 'secret',
             },
-            {
-                userId: 3,
-                username: 'maria',
-                password: 'guess',
-            },
         ];
     }
 
