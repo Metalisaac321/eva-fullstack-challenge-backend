@@ -1,4 +1,5 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, UseGuards } from '@nestjs/common';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { ConsumedMedication } from './consumed-medication.entity';
 import { ConsumedMedicationService } from './consumed-medication.service';
 
@@ -6,6 +7,10 @@ import { ConsumedMedicationService } from './consumed-medication.service';
 export class ConsumedMedicationController {
     constructor(private consumedMedicationsService: ConsumedMedicationService) { }
 
+    /**
+     *  Return all Consume dMedications for select filters in when page.
+     */
+    @UseGuards(JwtAuthGuard)
     @Get()
     async findAll(): Promise<ConsumedMedication[]> {
         return await this.consumedMedicationsService.findAll();
