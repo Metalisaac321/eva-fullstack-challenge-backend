@@ -1,5 +1,4 @@
 import { Body, Controller, Post } from '@nestjs/common';
-import { Booking } from './booking.entity';
 import { BookingService } from './booking.service';
 import { PaginationDto } from './dto/pagination.dto';
 

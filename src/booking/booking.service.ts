@@ -2,14 +2,13 @@ import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Clinic } from "../clinic/clinic.entity";
 import { Women } from "../women/women.entity";
-import { FindOperator, Repository } from "typeorm";
+import { Repository } from "typeorm";
 import { Booking } from "./booking.entity";
 import { InsertBookingDto } from "./dto/insert-booking.dto";
 import * as moment from 'moment';
 import { WomenService } from "../women/women.service";
 import { ClinicService } from "../clinic/clinic.service";
 import { PaginationDto } from "./dto/pagination.dto";
-import { PaginatedBookingResultDto } from "./dto/paginated-booking-result.dto";
 import * as _ from 'lodash';
 @Injectable()
 export class BookingService {
@@ -44,12 +43,9 @@ export class BookingService {
         return booking;
     }
 
-
-
-    async findAll({ clinicName, consumedMedications = [], date, page, filterMode }: PaginationDto): Promise<PaginatedBookingResultDto> {
+    async findAll({ clinicName, consumedMedications = [], date, page, filterMode }: PaginationDto): Promise<Booking[]> {
         const limit = 1000;
         const skippedItems = (page - 1) * limit;
-        const totalCount = await this.bookingRepository.count()
 
         const queryBuilder = this.bookingRepository
             .createQueryBuilder('booking')
@@ -100,12 +96,7 @@ export class BookingService {
             bookings = newBookings
         }
 
-        return {
-            totalCount,
-            page,
-            limit,
-            data: bookings,
-        }
+        return bookings;
     }
 
     async findById(bookingId: number): Promise<Booking> {
