@@ -23,8 +23,5 @@ export class Booking {
     clinic?: Clinic;
 
     @ManyToMany(type => ConsumedMedication, consumedMedication => consumedMedication.bookings)
-    @JoinTable({
-        name: 'booking_consumed_medication'
-    })
     consumedMedications?: ConsumedMedication[];
 }
