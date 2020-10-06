@@ -59,7 +59,7 @@ export class BookingService {
                 'clinic.name',
                 'consumedMedications.name',
             ])
-            .offset(skippedItems)
+            .offset(Number(skippedItems))
             .limit(limit)
 
         if (date) {
