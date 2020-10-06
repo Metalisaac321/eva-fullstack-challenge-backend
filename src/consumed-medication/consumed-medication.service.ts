@@ -53,4 +53,8 @@ export class ConsumedMedicationService {
     async count(): Promise<number> {
         return await this.consumedMedicationRepository.count()
     }
+
+    async findAll(): Promise<ConsumedMedication[]> {
+        return this.consumedMedicationRepository.find();
+    }
 }

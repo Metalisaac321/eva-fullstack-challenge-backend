@@ -21,4 +21,8 @@ export class ClinicService {
 
         return clinic;
     }
+
+    async findAll(): Promise<Clinic[]> {
+        return this.clinicRepository.find();
+    }
 }
