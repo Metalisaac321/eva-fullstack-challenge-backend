@@ -7,6 +7,8 @@ import { WomenModule } from './women/women.module';
 import { ClinicModule } from './clinic/clinic.module';
 import { ConsumedMedicationModule } from './consumed-medication/consumed-medication.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { AuthModule } from './auth/auth.module';
+import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
@@ -24,7 +26,9 @@ import { TypeOrmModule } from '@nestjs/typeorm';
     BookingModule,
     WomenModule,
     ClinicModule,
-    ConsumedMedicationModule
+    ConsumedMedicationModule,
+    AuthModule,
+    UsersModule
   ],
   controllers: [AppController],
   providers: [AppService],
