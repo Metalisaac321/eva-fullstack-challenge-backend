@@ -14,7 +14,7 @@ import { UsersModule } from './users/users.module';
   imports: [
     TypeOrmModule.forRoot({
       type: 'postgres',
-      host: 'db',
+      host: 'localhost',
       port: 5432,
       username: 'root',
       password: 'SuperSecretPassword',
@@ -28,7 +28,8 @@ import { UsersModule } from './users/users.module';
     ClinicModule,
     ConsumedMedicationModule,
     AuthModule,
-    UsersModule
+    UsersModule,
+    AppModule,
   ],
   controllers: [AppController],
   providers: [AppService],
